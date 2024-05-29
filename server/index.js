@@ -5,6 +5,7 @@ const mongodbUrl = "mongodb+srv://chatmern:mongo123456@cluster0.xzzhyfs.mongodb.
 mongoose.connect(mongodbUrl);
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
 const app = express();
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -20,14 +21,18 @@ app.get('/test', (req,res)=>{
     res.json('test');
 });
 
-app.post('/login', async (req,res)=>{
+app.post('/signup', async (req,res)=>{
     try {
         const {name, password} = req.body;
-        await User.create({name,password});
-        res.json({name: name, password: password})
+        const createdUser = await User.create({name,password});
+        const jwtKey = "kjhgfdfghjkljhg";
+        jwt.sign({userId: createdUser._id}, jwtKey, {}, (err, token)=>{
+            res.cookie('token',token).status(201).json({token: token, id: createdUser._id})
+        });
+        // res.json({name: name, password: password})
     } catch (error) {
         res.json(error)
-        if(error) throw error;
+        // if(error) throw error;
     }
 })
 app.listen(5000, ()=>{
