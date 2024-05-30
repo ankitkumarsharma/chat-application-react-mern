@@ -6,7 +6,7 @@ const SignupAndLoginForm = () => {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const { setLoggedName, setId } = useContext(UserContext);
-    const [isLoginOrSignup, setIsLoginOrSignup] = useState('signup')
+    const [isLoginOrSignup, setIsLoginOrSignup] = useState('login')
 
     const handleSubmit = async (e) => {
         e.preventDefault();

@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const bcryptSalt = bcrypt.genSaltSync(10);
+const ws = require('ws');
 const jwt = require('jsonwebtoken');
 const jwtKey = "kjhgfdfghjkljhg";
 const app = express();
@@ -55,7 +56,8 @@ app.post('/signup', async (req,res)=>{
         });
         // res.json({name: name, password: password})
     } catch (error) {
-        res.json(error)
+        // res.json(error)
+        res.status(406).json({message: 'Record Duplicate'})
         // if(error) throw error;
     }
 })
@@ -70,12 +72,20 @@ app.post('/login', async (req,res)=>{
             jwt.sign({userId: foundUser._id, name}, jwtKey, {}, (err, token)=>{
                 res.cookie('token',token).json({id: foundUser._id,})
             });
+          } else {
+            res.status(401).json({message: 'Unauthorized'})
           }
         }
     } catch (error) {
         res.json(error);
     }
 })
-app.listen(5000, ()=>{
+const server = app.listen(5000, ()=>{
     console.log('Server is running on port 5000');
 });
+
+const wsServer = new ws.WebSocketServer({server});
+
+wsServer.on('connection', (connection)=>{
+    console.log("connected...")
+})
