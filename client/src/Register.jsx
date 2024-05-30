@@ -33,6 +33,9 @@ const Register = () => {
                             className="flex-1 p-2 rounded" placeholder="Password" />
                     </div>
                     <button onClick={handleSubmit} className="bg-red-500 text-white block w-full h-10 rounded" type="submit">Signup</button>
+                    <div className="text-center mt-2">
+                        Already a member?, <a href="">Login here</a>
+                    </div>
                 </form>
             </div>
         </>
