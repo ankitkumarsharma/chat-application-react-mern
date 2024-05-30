@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import Register from "./Register";
+import SignupAndLoginForm from "./SignupAndLoginForm";
 import { UserContext } from "./UserContext";
 import axios from "axios";
 
@@ -21,10 +21,11 @@ const logout = async ()=>{
             </>
             
         )
+    } else {
+        return(
+            <SignupAndLoginForm/>
+        )
     }
-    return( 
-        <Register/>
-    )
 }
 
 export default Routes;

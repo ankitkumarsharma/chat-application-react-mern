@@ -6,6 +6,8 @@ mongoose.connect(mongodbUrl);
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const bcrypt = require('bcrypt');
+const bcryptSalt = bcrypt.genSaltSync(10);
 const jwt = require('jsonwebtoken');
 const jwtKey = "kjhgfdfghjkljhg";
 const app = express();
@@ -38,19 +40,40 @@ app.get('/profile',(req,res)=>{
 });
 
 app.post('/logout',(req,res)=>{
-    res.cookie('token','', {sameSite:'none', secure: false}).json("Logout")
+    res.cookie('token','', {sameSite:'none', secure: true}).json("Logout")
 })
 app.post('/signup', async (req,res)=>{
     try {
         const {name, password} = req.body;
-        const createdUser = await User.create({name,password});
+        const hashedPassword = bcrypt.hashSync(password,bcryptSalt);
+        const createdUser = await User.create({
+            name:name,
+            password:hashedPassword
+        });
         jwt.sign({userId: createdUser._id, name}, jwtKey, {}, (err, token)=>{
-            res.cookie('token',token,{sameSite:'none', secure: false}).status(201).json({token: token, id: createdUser._id, name: name})
+            res.cookie('token',token,{sameSite:'none', secure: true}).status(201).json({token: token, id: createdUser._id, name: name})
         });
         // res.json({name: name, password: password})
     } catch (error) {
         res.json(error)
         // if(error) throw error;
+    }
+})
+
+app.post('/login', async (req,res)=>{
+    try {
+        const {name, password} = req.body;
+        const foundUser = await User.findOne({name});
+        if(foundUser){
+          const isAuth = bcrypt.compareSync(password,foundUser.password);
+          if(isAuth){
+            jwt.sign({userId: foundUser._id, name}, jwtKey, {}, (err, token)=>{
+                res.cookie('token',token).json({id: foundUser._id,})
+            });
+          }
+        }
+    } catch (error) {
+        res.json(error);
     }
 })
 app.listen(5000, ()=>{
