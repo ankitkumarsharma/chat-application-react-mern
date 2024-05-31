@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors(
     {
-        origin: 'https://chat-react-app-seven.vercel.app',
+        origin: 'https://chat-application-react-mern.vercel.app',
         credentials: true
     }
 ));
