@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors(
     {
-        origin: 'http://localhost:3000',
+        origin: 'https://chat-react-7g8fbh2pu-ankitkumarsharma1s-projects.vercel.app',
         credentials: true
     }
 ));
