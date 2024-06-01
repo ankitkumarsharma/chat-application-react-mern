@@ -98,13 +98,32 @@ wsServer.on('connection', (conn, req) => {
             jwt.verify(token, jwtKey, {}, (err, data) => {
                 // if(err) throw err;
                 // conn.send(JSON.stringify(data));
-                console.log(data);
+                // console.log(data);
                 const { userId, name } = data;
                 conn.userId = userId;
                 conn.name = name;
             })
         }
     }
+
+    conn.on('message',(data)=>{
+        const messageData = JSON.parse(data.toString());
+        const {receiverId, message} = messageData.message;
+        if(receiverId && message){
+            [...wsServer.clients]
+            .filter(client => client.userId === receiverId)
+            .forEach(client => {
+                client.send(JSON.stringify({
+                    message: {
+                        senderId: conn.userId,
+                        receiverId: receiverId,
+                        message: message
+                    }
+                }));
+            })
+        }
+    });
+
     // console.log("clients >>>", [...wsServer.clients].map(conn => conn.name));
     [...wsServer.clients].forEach(client => {
         client.send(JSON.stringify({
@@ -114,5 +133,7 @@ wsServer.on('connection', (conn, req) => {
                 online: true
             }))
         }));
-    })
+    });
+
+    
 })

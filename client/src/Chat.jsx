@@ -7,7 +7,8 @@ const Chat = () => {
     const [onlinePeople, setOnlinePeople] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
     const { loggedName, id } = useContext(UserContext);
-    const { newMessageText, setNewMessageText } = useContext('');
+    const [ newMessageText, setNewMessageText ] = useState('');
+    const [ message, setMessage ] = useState([]);
     useEffect(() => {
         // const ws = new WebSocket('ws://localhost:5000');
         const ws = new WebSocket('ws://chat-nodejs-mongodb-ket5atbrj-ankitkumarsharma1s-projects.vercel.app');
@@ -20,7 +21,16 @@ const Chat = () => {
         console.log(JSON.parse(event.data).online);
         const messageData = JSON.parse(event.data);
         if ('online' in messageData) {
-            setOnlinePeople(messageData.online);
+            let messageArr = messageData.online;
+            messageArr = messageArr.filter((value, index, self) =>
+                index === self.findIndex((t) => (
+                  t.userId === value.userId
+                ))
+              )
+            setOnlinePeople(messageArr);
+        } else {
+            console.log(messageData)
+            setMessage(prev => ([...prev, {text:messageData.message.message, isOur:false}]))
         }
     }
 
@@ -45,6 +55,7 @@ const Chat = () => {
             }
         }));
         setNewMessageText('');
+        setMessage(prev => ([...prev, {text:newMessageText, isOur:true}]))
     }
     return (
         <div className="flex h-screen">
@@ -61,13 +72,22 @@ const Chat = () => {
                         </div>
                     )}
                 </div>
-                <div className="flex p-2">
-                    <form onSubmit={sendMessage}>
-                        <input type="text" value={newMessageText} onChange={(e)=> setNewMessageText(e.target[0].value)} placeholder="Type your message here"
+                {
+                    selectedUser && message.map((item, index) => (
+                        <div key={index} className={item.isOur? "bg-red-500 text-white p-2" : "bg-gray-500 p-2"}>
+                            {item.text}
+                        </div>
+                    ))
+                }
+                {selectedUser && (
+                    <div className="flex p-2">
+                    <form className="flex w-full" onSubmit={sendMessage}>
+                        <input type="text" value={newMessageText} onChange={(e)=> setNewMessageText(e.target.value)} placeholder="Type your message here"
                             className="bg-white flex-grow border p-2" />
                         <button type="submit" className="bg-red-500 text-white p-2">Send</button>
                     </form>
                 </div>
+                )}
             </div>
         </div>
     );

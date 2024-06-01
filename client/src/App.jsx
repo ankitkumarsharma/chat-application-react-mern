@@ -6,11 +6,15 @@ import { UserContextProvider } from './UserContext';
 function App() {
   // axios.defaults.baseURL = "http://localhost:5000";
   axios.defaults.baseURL = "https://chat-nodejs-mongodb-ket5atbrj-ankitkumarsharma1s-projects.vercel.app";
+  // Set default headers for all axios requests
+  axios.defaults.headers.common['Content-Type'] = 'application/json';
+  axios.defaults.headers.common['Authorization'] = 'Bearer YOUR_TOKEN_HERE';
+  axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
   axios.defaults.withCredentials = true;
   return (
     <>
       <UserContextProvider>
-        <Routes/>
+        <Routes />
       </UserContextProvider>
     </>
   );
