@@ -9,7 +9,7 @@ export const UserContextProvider = ({children})=>{
     useEffect(()=>{
         axios.get('/profile').then(
             (res)=>{
-            setId(res.data.profileId);
+            setId(res.data.userId);
             setLoggedName(res.data.name);
         },(err)=>{
             setId(null);

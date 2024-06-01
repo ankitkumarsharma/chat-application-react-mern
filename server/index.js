@@ -16,13 +16,14 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(cors(
-    {
-        origin: 'https://chat-application-react-mern.vercel.app',
-        // origin: 'http://localhost:3000',
-        credentials: true
-    }
-));
+const corsOptions = {
+    origin: 'https://chat-application-react-mern.vercel.app',
+    // origin: 'http://localhost:3000', 
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allow these HTTP methods
+    credentials: true, // Allow credentials (cookies, authorization headers, TLS client certificates)
+    optionsSuccessStatus: 204 // Response status for successful OPTIONS requests
+  };
+app.use(cors(corsOptions));
 
 app.get('/test', (req, res) => {
     res.json('test');

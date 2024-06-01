@@ -1,10 +1,16 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import Avatar from "./Avatar";
+import { UserContext } from "./UserContext";
 
 const Chat = () => {
     const [ws, setWs] = useState(null);
     const [onlinePeople, setOnlinePeople] = useState([]);
+    const [selectedUser, setSelectedUser] = useState(null);
+    const { loggedName, id } = useContext(UserContext);
+    const { newMessageText, setNewMessageText } = useContext('');
     useEffect(() => {
-        const ws = new WebSocket('ws://localhost:5000');
+        // const ws = new WebSocket('ws://localhost:5000');
+        const ws = new WebSocket('ws://chat-nodejs-mongodb-ket5atbrj-ankitkumarsharma1s-projects.vercel.app');
         setWs(ws);
         ws.addEventListener('message', handleMessage)
     }, []);
@@ -19,13 +25,27 @@ const Chat = () => {
     }
 
     const people = onlinePeople.map((item, index) => (
-        <li key={item.userId}>
-            <div className="border-b border-gray-100 py-2">
-                {item.name}
-            </div>
-        </li>
+        id !== item.userId && (
+            <li key={item.userId}>
+                <div onClick={() => setSelectedUser(item.userId)} className={"border-b border-gray-100 py-2 flex items-center pl-2 " + (item.userId === selectedUser ? "bg-red-300" : "")}>
+                    <Avatar name={item.name} />
+                    {item.name}
+                </div>
+            </li>
+        )
     ));
 
+    const sendMessage = (event) => {
+        event.preventDefault();
+        ws.send(JSON.stringify({
+            message: {
+                senderId: id,
+                receiverId: selectedUser,
+                message: newMessageText
+            }
+        }));
+        setNewMessageText('');
+    }
     return (
         <div className="flex h-screen">
             <div className="bg-red-100 w-1/3">
@@ -35,12 +55,18 @@ const Chat = () => {
             </div>
             <div className="bg-red-300 w-2/3 flex flex-col">
                 <div className="flex-grow">
-                    Messages with contacts
+                    {!selectedUser && (
+                        <div className="flex items-center justify-center h-full">
+                            <div className="w-full text-center text-gray-500">Select a person to chat</div>
+                        </div>
+                    )}
                 </div>
                 <div className="flex p-2">
-                    <input type="text" placeholder="Type your message here"
-                        className="bg-white flex-grow border p-2" />
-                    <button className="bg-red-500 text-white p-2">Send</button>
+                    <form onSubmit={sendMessage}>
+                        <input type="text" value={newMessageText} onChange={(e)=> setNewMessageText(e.target[0].value)} placeholder="Type your message here"
+                            className="bg-white flex-grow border p-2" />
+                        <button type="submit" className="bg-red-500 text-white p-2">Send</button>
+                    </form>
                 </div>
             </div>
         </div>
