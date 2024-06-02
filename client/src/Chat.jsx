@@ -11,7 +11,7 @@ const Chat = () => {
     const [ message, setMessage ] = useState([]);
     useEffect(() => {
         // const ws = new WebSocket('ws://localhost:5000');
-        const ws = new WebSocket('ws://chat-nodejs-mongodb-ket5atbrj-ankitkumarsharma1s-projects.vercel.app');
+        const ws = new WebSocket('wss://chat-application-react-mern.onrender.com');
         setWs(ws);
         ws.addEventListener('message', handleMessage)
     }, []);
