@@ -54,14 +54,14 @@ app.post('/signup', async (req, res) => {
             password: hashedPassword
         });
         jwt.sign({ userId: createdUser._id, name }, jwtKey, {}, (err, token) => {
-            res.cookie('token', token, { sameSite: 'none', secure: true }).status(201).json({ token: token, id: createdUser._id, name: name });
-            res.json(
-                {
+            res.cookie('token', token, { sameSite: 'none', secure: true }).status(201).json(
+                { 
                     user: createdUser,
                     token: token,
-                    admin:"Ankit"
-                }
-            )
+                    admin:"Ankit",
+                    id: createdUser._id, 
+                    name: name 
+                });
         });
         // res.json({name: name, password: password})
     } catch (error) {
@@ -79,14 +79,13 @@ app.post('/login', async (req, res) => {
             const isAuth = bcrypt.compareSync(password, foundUser.password);
             if (isAuth) {
                 jwt.sign({ userId: foundUser._id, name }, jwtKey, {}, (err, token) => {
-                    res.cookie('token', token).json({ id: foundUser._id, })
-                    res.json(
-                        {
+                    res.cookie('token', token).json(
+                        { 
+                            id: foundUser._id, 
                             user: foundUser,
                             token: token,
                             admin: "Ankit"
-                        }
-                    );
+                        })
                 });
             } else {
                 res.status(401).json({ message: 'Unauthorized' })
