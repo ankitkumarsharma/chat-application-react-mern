@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const User = require('./models/User')
+const User = require('./models/User');
+const Message = require('./models/Message');
 const mongodbUrl = "mongodb+srv://chatmern:mongo123456@cluster0.xzzhyfs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 mongoose.connect(mongodbUrl);
 const bodyParser = require('body-parser');
@@ -119,10 +120,15 @@ wsServer.on('connection', (conn, req) => {
         }
     }
 
-    conn.on('message',(data)=>{
+    conn.on('message', async (data)=>{
         const messageData = JSON.parse(data.toString());
         const {receiverId, message} = messageData.message;
         if(receiverId && message){
+            const messageDB = await Message.create({
+                sender: conn.userId,
+                receiver: receiverId,
+                message
+            });
             [...wsServer.clients]
             .filter(client => client.userId === receiverId)
             .forEach(client => {
@@ -130,7 +136,8 @@ wsServer.on('connection', (conn, req) => {
                     message: {
                         senderId: conn.userId,
                         receiverId: receiverId,
-                        message: message
+                        message: message,
+                        id: messageDB._id
                     }
                 }));
             })

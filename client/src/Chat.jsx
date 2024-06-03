@@ -29,7 +29,7 @@ const Chat = () => {
             )
             setOnlinePeople(messageArr);
         } else {
-            
+
             setMessage(prev => ([...prev, { text: messageData.message.message, isOur: false }]));
             console.log(messageData);
         }
