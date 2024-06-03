@@ -7,8 +7,8 @@ const Chat = () => {
     const [onlinePeople, setOnlinePeople] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
     const { loggedName, id } = useContext(UserContext);
-    const [ newMessageText, setNewMessageText ] = useState('');
-    const [ message, setMessage ] = useState([]);
+    const [newMessageText, setNewMessageText] = useState('');
+    const [message, setMessage] = useState([]);
     useEffect(() => {
         // const ws = new WebSocket('ws://localhost:5000');
         const ws = new WebSocket('wss://chat-application-react-mern.onrender.com');
@@ -24,13 +24,14 @@ const Chat = () => {
             let messageArr = messageData.online;
             messageArr = messageArr.filter((value, index, self) =>
                 index === self.findIndex((t) => (
-                  t.userId === value.userId
+                    t.userId === value.userId
                 ))
-              )
+            )
             setOnlinePeople(messageArr);
         } else {
-            console.log(messageData)
-            setMessage(prev => ([...prev, {text:messageData.message.message, isOur:false}]))
+            
+            setMessage(prev => ([...prev, { text: messageData.message.message, isOur: false }]));
+            console.log(messageData);
         }
     }
 
@@ -55,10 +56,10 @@ const Chat = () => {
             }
         }));
         setNewMessageText('');
-        setMessage(prev => ([...prev, {text:newMessageText, isOur:true}]))
+        setMessage(prev => ([...prev, { text: newMessageText, isOur: true }]))
     }
     return (
-        <div className="flex h-screen">
+        <div className="flex md:h-[400px] h-screen">
             <div className="bg-red-100 w-1/3">
                 <ul>
                     {people}
@@ -72,21 +73,43 @@ const Chat = () => {
                         </div>
                     )}
                 </div>
-                {
-                    selectedUser && message.map((item, index) => (
-                        <div key={index} className={item.isOur? "bg-red-500 text-white p-2" : "bg-gray-500 p-2"}>
-                            {item.text}
-                        </div>
-                    ))
-                }
-                {selectedUser && (
-                    <div className="flex p-2">
-                    <form className="flex w-full" onSubmit={sendMessage}>
-                        <input type="text" value={newMessageText} onChange={(e)=> setNewMessageText(e.target.value)} placeholder="Type your message here"
-                            className="bg-white flex-grow border p-2" />
-                        <button type="submit" className="bg-red-500 text-white p-2">Send</button>
-                    </form>
+                <div className="overflow-x-auto">
+                    {
+                        selectedUser && message.map((item, index) => (
+                            <div>
+                                {
+                                    item.isOur && (
+                                        <div className="flex">
+                                            <div className="w-[60%]"></div>
+                                            <div key={index} className="bg-red-500 text-white p-2 text-right w-[40%] m-2 rounded-md">
+                                                {item.text}
+                                            </div>
+                                        </div>
+                                    )
+                                }
+                                {
+                                    !item.isOur && (
+                                        <div className="flex">
+                                            <div key={index} className="bg-gray-500 text-white p-2 text-left w-[40%] m-2 rounded-md">
+                                                {item.text}
+                                            </div>
+                                            <div className="w-[60%]"></div>
+                                        </div>
+
+                                    )
+                                }
+                            </div>
+                        ))
+                    }
                 </div>
+                {selectedUser && (
+                    <div className="p-2">
+                        <form className="flex w-full" onSubmit={sendMessage}>
+                            <input type="text" value={newMessageText} onChange={(e) => setNewMessageText(e.target.value)} placeholder="Type your message here"
+                                className="bg-white flex-grow border p-2" />
+                            <button type="submit" className="bg-red-500 text-white p-2">Send</button>
+                        </form>
+                    </div>
                 )}
             </div>
         </div>

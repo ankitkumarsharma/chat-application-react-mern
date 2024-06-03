@@ -17,6 +17,8 @@ const Routes = () => {
     if (loggedName) {
         return (
             <>
+                <div className="bg-red-50 md:flex md:items-center h-screen">
+                <div className="md:w-[60%] md:mx-auto">
                 <div className="bg-red-500 p-2 flex">
                     <h1 className="w-5/6 text-white font-medium">Welcome {loggedName}</h1>
                     <div className="w-1/6 text-right">
@@ -24,6 +26,9 @@ const Routes = () => {
                     </div>
                 </div>
                 <Chat />
+                </div>
+                </div>
+                
             </>
         )
     } else {
