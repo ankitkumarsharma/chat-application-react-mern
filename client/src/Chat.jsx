@@ -6,14 +6,15 @@ import axios from "axios";
 
 const Chat = () => {
     const [ws, setWs] = useState(null);
-    const [onlinePeople, setOnlinePeople] = useState([]);
+    const [onlineUsers, setOnlineUsers] = useState([]);
+    const [offlineUsers, setOfflineUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
     const { loggedName, id } = useContext(UserContext);
     const [newMessageText, setNewMessageText] = useState('');
     const [message, setMessage] = useState([]);
     useEffect(() => {
-        // const ws = new WebSocket('ws://localhost:5000');
-        const ws = new WebSocket('wss://chat-application-react-mern.onrender.com');
+        const ws = new WebSocket('ws://localhost:5000');
+        // const ws = new WebSocket('wss://chat-application-react-mern.onrender.com');
         setWs(ws);
         ws.addEventListener('message', handleMessage)
     }, []);
@@ -24,7 +25,14 @@ const Chat = () => {
                 setMessage(res.data);
             })
         }
-    }, [selectedUser])
+    }, [selectedUser]);
+
+    useEffect(() => {
+        axios.get('/users').then(
+            (res) => {
+                setOnlineUsers(res.data); 
+            })
+    },[])
 
     const handleMessage = (event) => {
         console.log(event.data);
@@ -37,14 +45,14 @@ const Chat = () => {
                     t.userId === value.userId
                 ))
             )
-            setOnlinePeople(messageArr);
+            setOnlineUsers(messageArr); 
         } else if ('message' in messageData) {
             setMessage(prev => ([...prev, { _id: messageData.message.id, sender: messageData.sender, message: messageData.message.message, isOur: false }]));
             console.log(messageData);
         }
     }
 
-    const people = onlinePeople.map((item, index) => (
+    const people = onlineUsers.map((item, index) => (
         id !== item.userId && (
             <li key={item.userId}>
                 <div onClick={() => setSelectedUser(item.userId)} className={"border-b border-gray-100 py-2 flex items-center pl-2 " + (item.userId === selectedUser ? "bg-red-300" : "")}>

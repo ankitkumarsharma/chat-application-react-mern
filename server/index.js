@@ -51,19 +51,38 @@ app.get('/messages/:userId', async (req, res) => {
     }).sort({ createdAt: 1 });
     res.json(messages);
 });
+app.get('/users', async (req, res) => {
+    const token = req.cookies?.token;
+    let userData;
+    if (token) {
+        jwt.verify(token, jwtKey, {}, (err, data) => {
+            // if(err) throw err;
+            userData = data;
+        })
+    } else {
+        res.status(401).json({ message: 'Unauthorized' })
+    };
+    const ourUserId = userData.userId;
+    const users = await User.find({ _id: { $ne: ourUserId } });
+    const modifyUsers = users.map((user)=>{
+        return {
+            userId: user._id,
+            name: user.name
+        }
+    })
+    res.json(modifyUsers);
+});
 app.get('/profile', (req, res) => {
     const token = req.cookies?.token;
     if (token) {
         jwt.verify(token, jwtKey, {}, (err, data) => {
-            // if(err) throw err;
-            res.json(data);
+            res.json(data)
         })
     } else {
         res.status(401).json({ message: 'Unauthorized' })
     }
 
 });
-
 app.post('/logout', (req, res) => {
     res.cookie('token', '', { sameSite: 'none', secure: true }).json("Logout")
 })
