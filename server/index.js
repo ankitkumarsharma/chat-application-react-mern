@@ -19,17 +19,38 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 const corsOptions = {
     origin: 'https://chat-application-react-mern.vercel.app',
-    // origin: 'http://localhost:3000', 
+    // origin: 'http://localhost:3000',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allow these HTTP methods
     credentials: true, // Allow credentials (cookies, authorization headers, TLS client certificates)
     optionsSuccessStatus: 204 // Response status for successful OPTIONS requests
-  };
+};
 app.use(cors(corsOptions));
 
 app.get('/test', (req, res) => {
     res.json('test');
 });
 
+app.get('/messages/:userId', async (req, res) => {
+    const { userId } = req.params;
+    const token = req.cookies?.token;
+    let userData;
+    if (token) {
+        jwt.verify(token, jwtKey, {}, (err, data) => {
+            // if(err) throw err;
+            userData = data;
+        })
+    } else {
+        res.status(401).json({ message: 'Unauthorized' })
+    };
+    const ourUserId = userData.userId;
+    console.log("userId>> ", userId)
+    console.log("ourUserId>> ", ourUserId);
+    const messages = await Message.find({
+        sender: { $in: [userId, ourUserId] },
+        receiver: { $in: [userId, ourUserId] },
+    }).sort({ createdAt: 1 });
+    res.json(messages);
+});
 app.get('/profile', (req, res) => {
     const token = req.cookies?.token;
     if (token) {
@@ -56,12 +77,12 @@ app.post('/signup', async (req, res) => {
         });
         jwt.sign({ userId: createdUser._id, name }, jwtKey, {}, (err, token) => {
             res.cookie('token', token, { sameSite: 'none', secure: true }).status(201).json(
-                { 
+                {
                     user: createdUser,
                     token: token,
-                    admin:"Ankit",
-                    id: createdUser._id, 
-                    name: name 
+                    admin: "Ankit",
+                    id: createdUser._id,
+                    name: name
                 });
         });
         // res.json({name: name, password: password})
@@ -81,8 +102,8 @@ app.post('/login', async (req, res) => {
             if (isAuth) {
                 jwt.sign({ userId: foundUser._id, name }, jwtKey, {}, (err, token) => {
                     res.cookie('token', token).json(
-                        { 
-                            id: foundUser._id, 
+                        {
+                            id: foundUser._id,
                             user: foundUser,
                             token: token,
                             admin: "Ankit"
@@ -120,27 +141,27 @@ wsServer.on('connection', (conn, req) => {
         }
     }
 
-    conn.on('message', async (data)=>{
+    conn.on('message', async (data) => {
         const messageData = JSON.parse(data.toString());
-        const {receiverId, message} = messageData.message;
-        if(receiverId && message){
+        const { receiverId, message } = messageData.message;
+        if (receiverId && message) {
             const messageDB = await Message.create({
                 sender: conn.userId,
                 receiver: receiverId,
                 message
             });
             [...wsServer.clients]
-            .filter(client => client.userId === receiverId)
-            .forEach(client => {
-                client.send(JSON.stringify({
-                    message: {
-                        senderId: conn.userId,
-                        receiverId: receiverId,
-                        message: message,
-                        id: messageDB._id
-                    }
-                }));
-            })
+                .filter(client => client.userId === receiverId)
+                .forEach(client => {
+                    client.send(JSON.stringify({
+                        message: {
+                            sender: conn.userId,
+                            receiver: receiverId,
+                            message: message,
+                            _id: messageDB._id
+                        }
+                    }));
+                })
         }
     });
 
@@ -155,5 +176,5 @@ wsServer.on('connection', (conn, req) => {
         }));
     });
 
-    
+
 })

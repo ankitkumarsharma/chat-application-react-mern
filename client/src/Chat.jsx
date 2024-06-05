@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import Avatar from "./Avatar";
 import { UserContext } from "./UserContext";
+import uniqBy from 'lodash/uniqBy';
+import axios from "axios";
 
 const Chat = () => {
     const [ws, setWs] = useState(null);
@@ -16,6 +18,14 @@ const Chat = () => {
         ws.addEventListener('message', handleMessage)
     }, []);
 
+    useEffect(() => {
+        if (selectedUser) {
+            axios.get('/messages/' + selectedUser).then(res => {
+                setMessage(res.data);
+            })
+        }
+    }, [selectedUser])
+
     const handleMessage = (event) => {
         console.log(event.data);
         console.log(JSON.parse(event.data).online);
@@ -28,9 +38,8 @@ const Chat = () => {
                 ))
             )
             setOnlinePeople(messageArr);
-        } else {
-
-            setMessage(prev => ([...prev, { text: messageData.message.message, isOur: false }]));
+        } else if ('message' in messageData) {
+            setMessage(prev => ([...prev, { _id: messageData.message.id, sender: messageData.sender, message: messageData.message.message, isOur: false }]));
             console.log(messageData);
         }
     }
@@ -56,8 +65,10 @@ const Chat = () => {
             }
         }));
         setNewMessageText('');
-        setMessage(prev => ([...prev, { text: newMessageText, isOur: true }]))
+        setMessage(prev => ([...prev, { _id: Date.now(), sender: id, message: newMessageText, isOur: true }]))
     }
+
+    const messagesWithoutLoops = uniqBy(message, '_id');
     return (
         <div className="flex md:h-[400px] h-screen">
             <div className="bg-red-100 w-1/3">
@@ -75,23 +86,23 @@ const Chat = () => {
                 </div>
                 <div className="overflow-x-auto">
                     {
-                        selectedUser && message.map((item, index) => (
+                        selectedUser && messagesWithoutLoops.map((item, index) => (
                             <div>
                                 {
-                                    item.isOur && (
+                                    (item.sender === id) && (
                                         <div className="flex">
                                             <div className="w-[60%]"></div>
                                             <div key={index} className="bg-red-500 text-white p-2 text-right w-[40%] m-2 rounded-md">
-                                                {item.text}
+                                                {item.message}
                                             </div>
                                         </div>
                                     )
                                 }
                                 {
-                                    !item.isOur && (
+                                    (item.sender !== id) && (
                                         <div className="flex">
                                             <div key={index} className="bg-gray-500 text-white p-2 text-left w-[40%] m-2 rounded-md">
-                                                {item.text}
+                                                {item.message}
                                             </div>
                                             <div className="w-[60%]"></div>
                                         </div>
