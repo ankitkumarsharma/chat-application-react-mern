@@ -1,16 +1,23 @@
 import express from 'express';
 import { config } from 'dotenv';
+
 import authRoutes from './routes/authRoutes.js';
+import connectWithMongoDb from './db/connectWithMongoDb.js';
 
 const app = express();
-config();
 const PORT = process.env.PORT || 5000;
-app.get('/', (req,res)=>{
+
+config();
+app.use(express.urlencoded({ extended: true })); // for body- form urlencoded
+app.use(express.json()); // for parse incoming payload with json encoding from req.body
+
+app.get('/', (req, res) => {
     res.send("We are making A realtime chat application!");
 });
 
-app.use('/api/auth',authRoutes);
+app.use('/api/auth', authRoutes);
 
-app.listen(PORT,()=>{
+connectWithMongoDb();
+app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
