@@ -25,12 +25,18 @@ export const login = async (req, res) => {
         
     } catch (error) {
         console.log(error);
-        res.status(500).json({ error: "Internal Server Error!" });
+        res.status(500).json({ error: "Internal Server Error!"});
     }
 }
 
 export const logout = (req, res) => {
-    res.send("Welcome to logout");
+    try {
+        res.cookie("jwt","", {maxAge: 0});
+        res.status(500).json({ message: "Logout successfully!"});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "Internal Server Error!"});
+    }
 }
 
 export const signup = async (req, res) => {
