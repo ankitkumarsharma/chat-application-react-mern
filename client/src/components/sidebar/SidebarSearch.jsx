@@ -1,4 +1,4 @@
-import Input from "../layout/Input";
+import Input from "../../layout/Input";
 
 const SidebarSearch = () => {
     return (

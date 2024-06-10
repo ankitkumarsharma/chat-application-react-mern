@@ -1,4 +1,4 @@
-import Avatar from "../layout/Avatar";
+import Avatar from "../../layout/Avatar";
 
 const SidebarUsersList = () => {
     return (

@@ -1,5 +1,5 @@
-import Conversation from "../../components/Conversation";
-import Sidebar from "../../components/Sidebar";
+import Conversation from "../../components/messages/Conversation";
+import Sidebar from "../../components/sidebar/Sidebar";
 import ContentBlock from "../../layout/ContentBlock";
 
 const Home = () => {

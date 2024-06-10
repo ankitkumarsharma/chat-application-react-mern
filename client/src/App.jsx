@@ -6,9 +6,9 @@ import Home from './pages/home/Home';
 function App() {
   return (
     <div className='bg-blue-50 p-4 h-screen flex items-center justify-center'>
-      <Login />
+      {/* <Login /> */}
       {/* <SignUp/> */}
-      {/* <Home/> */}
+      <Home/>
     </div>
   );
 }

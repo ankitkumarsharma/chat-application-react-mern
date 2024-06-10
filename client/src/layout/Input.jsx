@@ -1,4 +1,4 @@
-const Input = ({ isLabel, name = "something", type, onChange, radioList = [], isRadioInline = true }) => {
+const Input = ({ isLabel, name = "something", type, onChange, radioList = [], isRadioInline = true, mb="mb-4" }) => {
     const radioInput = radioList.map((item) => {
         return <div key={item} className="w-full">
             <label htmlFor={item}>
@@ -9,7 +9,7 @@ const Input = ({ isLabel, name = "something", type, onChange, radioList = [], is
     });
 
     return (
-        <div className="mb-4">
+        <div className={`${mb} w-full`}>
             {isLabel && <label htmlFor="" className="label">
                 <span className="text-gray-600">{name}</span>
             </label>}
