@@ -10,7 +10,7 @@ const SidebarUsersList = () => {
                 </div>
             </li>
             <li>
-                <div className={"border-b border-gray-100 py-2 flex items-center pl-2 cursor-pointer"}>
+                <div className={"border-b border-gray-100 py-2 rounded-l-md bg-red-300 flex items-center font-semibold pl-2 cursor-pointer"}>
                     <Avatar />
                     Manish
                 </div>

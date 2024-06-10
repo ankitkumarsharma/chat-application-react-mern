@@ -2,7 +2,7 @@ import Input from "../../layout/Input";
 
 const SidebarSearch = () => {
     return (
-        <div className="flex">
+        <div className="flex pr-3">
             <Input />
             <span className="mt-3 ml-3">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
