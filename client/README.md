@@ -9,6 +9,7 @@ We can start Client with below commands
 ## npm packages
  - react-router-dom -> for Routing in React Js
  - tailwindcss -> for design css
+ - react-toastify -> for toaster messages like error,success,warning alerts
 
 ## Steps for All Applications
  - Start
