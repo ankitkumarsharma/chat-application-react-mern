@@ -1,8 +1,10 @@
-const Avatar = ({ name = "Ankit" }) => {
+import noUser from "../assets/img/noUser.png";
+
+const Avatar = ({ url }) => {
     return (
-        <div className="w-8 h-8 bg-red-500 rounded-full text-white font-bold mr-2 flex items-center">
+        <div className="w-8 border-teal-800 border-2 h-8 rounded-full text-white font-bold mr-2 flex items-center">
             <div className="text-center w-full">
-                {name.charAt(0).toUpperCase()}
+                {<img src={url ? url : noUser} alt="" />}
             </div>
         </div>
     )

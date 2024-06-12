@@ -10,6 +10,7 @@ We can start Client with below commands
  - react-router-dom -> for Routing in React Js
  - tailwindcss -> for design css
  - react-toastify -> for toaster messages like error,success,warning alerts
+ - zustand -> for state management like redux
 
 ## Steps for All Applications
  - Start

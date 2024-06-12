@@ -39,7 +39,7 @@ const SignUp = () => {
                 />
                 <Input
                     isLabel={true} onChange={(e) => handleRadioChange(e)}
-                    type="radio" label="Gender" name="gender" radioList={CONSTANTS.gender}
+                    type="radio" label="Gender" name="gender" radioList={CONSTANTS.GENDER}
                 />
                 <Button onClick={handleSubmit} name={loading ? 'Loading' : 'Signup'} />
                 <LoginOrSignupHint />

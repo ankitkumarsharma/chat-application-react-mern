@@ -21,7 +21,8 @@ export const API_URL = {
     USERS: "/api/users",
     SIGNUP: "/api/auth/signup",
     LOGIN: "/api/auth/login",
-    LOGOUT: "/api/auth/logout"
+    LOGOUT: "/api/auth/logout",
+    SEND_MESSAGE: "/api/message/send/"
 }
 
 export const HTTP_METHODS = {
