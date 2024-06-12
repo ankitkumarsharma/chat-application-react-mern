@@ -1,23 +1,31 @@
 import { useState } from "react";
 import { toast } from 'react-toastify';
+import { useAuthContext } from "../context/AuthContext";
+import { ALERT_MESSAGES, API_URL, HEADERS, HTTP_METHODS } from "../utils/app.constant";
 
 const useSignup = () => {
     const [loading, setLoading] = useState(false);
+    const { setAuthUser } = useAuthContext();
 
     const signup = async ({ fullName, username, password, confirmPassword, gender }) => {
         const success = handleInputErrors({ fullName, username, password, confirmPassword, gender });
         if (!success) return;
         setLoading(true);
         try {
-            const response = await fetch("http://localhost:5000/api/auth/signup", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
+            const response = await fetch(API_URL.SIGNUP, {
+                method: HTTP_METHODS.POST,
+                headers: HEADERS,
                 body: JSON.stringify({ fullName, username, password, confirmPassword, gender })
             });
 
             const data = await response.json();
+            toast.success(ALERT_MESSAGES.SUCCESS.SIGNUP_SUCCESS);
+            sessionStorage.setItem("chat-user", JSON.stringify(data));
+            setAuthUser(data);
+            if (data.error) {
+                toast.error(data.error);
+                throw new Error(data.error);
+            }
             console.log("API data >> ", data);
         } catch (error) {
             toast.error(error.message);

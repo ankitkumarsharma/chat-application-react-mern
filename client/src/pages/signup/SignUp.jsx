@@ -8,8 +8,8 @@ import { CONSTANTS } from "../../utils/app.constant";
 import useSignup from "../../hooks/useSignup";
 
 const SignUp = () => {
-    const [input, setInput] = useState(CONSTANTS.user);
-    const {loading, signup} = useSignup();
+    const [input, setInput] = useState(CONSTANTS.USER_SIGN_UP);
+    const { loading, signup } = useSignup();
     const handleSubmit = async (e) => {
         e.preventDefault();
         await signup(input)
@@ -41,7 +41,7 @@ const SignUp = () => {
                     isLabel={true} onChange={(e) => handleRadioChange(e)}
                     type="radio" label="Gender" name="gender" radioList={CONSTANTS.gender}
                 />
-                <Button onClick={handleSubmit} name="Signup" />
+                <Button onClick={handleSubmit} name={loading ? 'Loading' : 'Signup'} />
                 <LoginOrSignupHint />
             </form>
         </ContentBlock>

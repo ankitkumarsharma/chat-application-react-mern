@@ -1,6 +1,6 @@
 import Avatar from "../../layout/Avatar";
 
-const Message = ({ isSender, isGroup=false }) => {
+const Message = ({ isSender, isGroup = false }) => {
     return (
         <>
             <div className="flex items-start gap-2.5">

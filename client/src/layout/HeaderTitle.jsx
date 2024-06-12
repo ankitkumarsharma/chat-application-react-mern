@@ -1,4 +1,4 @@
-const HeaderTitle = ({ title, span="Chat App", size="text-3xl" }) => {
+const HeaderTitle = ({ title, span = "Chat App", size = "text-3xl" }) => {
     return (
         <h1 className={`font-bold text-center text-teal-800 mb-5 ${size}`}>
             {title}

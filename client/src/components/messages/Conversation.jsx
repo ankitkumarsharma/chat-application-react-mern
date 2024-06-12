@@ -7,8 +7,8 @@ const Conversation = () => {
             <div className="bg-gray-200 w-full rounded-md p-2 mb-3">
                 To: <span className="font-semibold">Ankit Kumar</span>
             </div>
-            <ChatRoom/>
-            <SendMessage/>
+            <ChatRoom />
+            <SendMessage />
         </div>
     );
 }
