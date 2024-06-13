@@ -35,8 +35,6 @@ const Chat = () => {
     }, [])
 
     const handleMessage = (event) => {
-        console.log(event.data);
-        console.log(JSON.parse(event.data).online);
         const messageData = JSON.parse(event.data);
         if ('online' in messageData) {
             let messageArr = messageData.online;
@@ -48,7 +46,6 @@ const Chat = () => {
             setOnlineUsers(messageArr);
         } else if ('message' in messageData) {
             setMessage(prev => ([...prev, { _id: messageData.message.id, sender: messageData.sender, message: messageData.message.message, isOur: false }]));
-            console.log(messageData);
         }
     }
 

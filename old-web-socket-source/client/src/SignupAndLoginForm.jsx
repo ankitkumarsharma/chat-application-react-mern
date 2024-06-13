@@ -9,8 +9,7 @@ const SignupAndLoginForm = () => {
     const [isLoginOrSignup, setIsLoginOrSignup] = useState('login')
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log(name, password);
+        e.preventDefault(); 
         const url = isLoginOrSignup === 'signup' ? 'signup' : 'login';
         const { data } = await axios.post(url, { name, password });
         setLoggedName(name);

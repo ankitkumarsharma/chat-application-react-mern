@@ -24,9 +24,11 @@ const useMessages = ()=> {
             setLoading(false);
         }
     }
-    useEffect(()=>{
-        if(selectedContact?._id) getMessages()
-    }, [selectedContact?._id, setMessages]);
+    // useEffect(()=>{
+    //     setTimeout(()=>{
+    //         // if(selectedContact?._id) getMessages();
+    //     }, 3000);
+    // }, [selectedContact?._id]);
 
     return {
         loading,

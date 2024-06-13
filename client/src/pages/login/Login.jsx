@@ -12,8 +12,7 @@ const Login = () => {
     const { loading, login } = useLogin();
     const onLogin = async (e) => {
         e.preventDefault();
-        await login(input);
-        console.log(input);
+        await login(input); 
     };
 
     return (

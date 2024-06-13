@@ -2,10 +2,12 @@ import { useState } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
 import { ALERT_MESSAGES, API_URL, HEADERS, HTTP_METHODS } from "../utils/app.constant";
+import useContactStore from "../store/useContactStore";
 
 const useLogout = () => {
     const [loading, setLoading] = useState(false);
     const { setAuthUser } = useAuthContext();
+    const {setSelectedContact, setMessages } = useContactStore();
     const logout = async () => {
         setLoading(true);
         try {
@@ -20,6 +22,8 @@ const useLogout = () => {
             }
             sessionStorage.removeItem('chat-user');
             setAuthUser(null);
+            setSelectedContact(null);
+            setMessages([]);
             toast.success(ALERT_MESSAGES.SUCCESS.LOGOUT_SUCCESS);
         } catch (error) {
             toast.error(error.message);

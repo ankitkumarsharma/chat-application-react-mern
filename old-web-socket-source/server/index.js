@@ -42,9 +42,7 @@ app.get('/messages/:userId', async (req, res) => {
     } else {
         res.status(401).json({ message: 'Unauthorized' })
     };
-    const ourUserId = userData.userId;
-    console.log("userId>> ", userId)
-    console.log("ourUserId>> ", ourUserId);
+    const ourUserId = userData.userId; 
     const messages = await Message.find({
         sender: { $in: [userId, ourUserId] },
         receiver: { $in: [userId, ourUserId] },
@@ -150,9 +148,6 @@ wsServer.on('connection', (conn, req) => {
         if (tokenCookieString) {
             const token = tokenCookieString.split('=')[1];
             jwt.verify(token, jwtKey, {}, (err, data) => {
-                // if(err) throw err;
-                // conn.send(JSON.stringify(data));
-                // console.log(data);
                 const { userId, name } = data;
                 conn.userId = userId;
                 conn.name = name;

@@ -5,8 +5,6 @@ import useContactStore from "../../store/useContactStore";
 const Message = ({ message }) => {
     const { authUser } = useAuthContext();
     const { selectedContact } = useContactStore();
-    console.log("selectedContact", selectedContact);
-    console.log("authUser", authUser);
     const fromMe = message.senderId === authUser.id;
     const fullName = fromMe ? authUser.fullName : selectedContact.fullName;
     const profilePic = fromMe ? authUser.profilePic : selectedContact.profilePic;
