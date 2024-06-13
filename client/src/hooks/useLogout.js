@@ -16,14 +16,14 @@ const useLogout = () => {
             const data = await response.json();
             if (data.error) {
                 toast.error(data.error);
-                throw new Error(data.error);
+                // throw new Error(data.error);
             }
             sessionStorage.removeItem('chat-user');
             setAuthUser(null);
             toast.success(ALERT_MESSAGES.SUCCESS.LOGOUT_SUCCESS);
         } catch (error) {
             toast.error(error.message);
-            throw new Error(error.message);
+            // throw new Error(error.message);
         } finally {
             setLoading(false);
         }

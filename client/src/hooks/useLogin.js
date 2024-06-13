@@ -19,7 +19,7 @@ const useLogin = () => {
             const data = await response.json();
             if (data.error) {
                 toast.error(data.error);
-                throw new Error(data.error);
+                // throw new Error(data.error);
             }
             toast.success(ALERT_MESSAGES.SUCCESS.LOGIN_SUCCESS);
             sessionStorage.setItem("chat-user", JSON.stringify(data));

@@ -24,9 +24,8 @@ const useSignup = () => {
             setAuthUser(data);
             if (data.error) {
                 toast.error(data.error);
-                throw new Error(data.error);
+                // throw new Error(data.error);
             }
-            console.log("API data >> ", data);
         } catch (error) {
             toast.error(error.message);
         } finally {

@@ -22,7 +22,8 @@ export const API_URL = {
     SIGNUP: "/api/auth/signup",
     LOGIN: "/api/auth/login",
     LOGOUT: "/api/auth/logout",
-    SEND_MESSAGE: "/api/message/send/"
+    SEND_MESSAGE: "/api/messages/send/",
+    GET_MESSAGES: "/api/messages/",
 }
 
 export const HTTP_METHODS = {

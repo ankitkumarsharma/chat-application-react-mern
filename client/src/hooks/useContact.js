@@ -14,12 +14,12 @@ const useContact = () => {
                 const data = await response.json();
                 if (data.error) {
                     toast.error(data.error);
-                    throw new Error(data.error);
+                    // throw new Error(data.error);
                 }
                 setContactList(data);
             } catch (error) {
                 toast.error(error.message);
-                throw new Error(error.message);
+                // throw new Error(error.message);
             } finally {
                 setLoading(false);
             }
