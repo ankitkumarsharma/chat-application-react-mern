@@ -19,18 +19,18 @@ app.use(express.urlencoded({ extended: true })); // for body- form urlencoded
 app.use(express.json()); // for parse incoming payload with json encoding from req.body
 app.use(cookieParser()); // for parse incoming cookies with json encoding from req.cookies
 
-app.get('/', (req, res) => {
-    res.send("We are making A realtime chat application!");
-});
+// app.get('/', (req, res) => {
+//     res.send("We are making A realtime chat application!");
+// });
 
 app.use('/api/auth', authRoutes);
 app.use('/api/messages', messagesRoutes);
 app.use('/api/users', usersRoutes);
 
-app.use(express.static(path.join(__dirname, '/client/build')));
+app.use(express.static(path.join(__dirname, '../client/build')));
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
 });
 
 connectWithMongoDb();
