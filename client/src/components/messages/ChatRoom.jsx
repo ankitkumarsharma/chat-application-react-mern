@@ -1,8 +1,10 @@
 import useMessages from "../../hooks/useMessages";
+import useSocketMessage from "../../hooks/useSocketMessage";
 import Message from "./Message";
 
 const ChatRoom = () => {
     const { loading, messages } = useMessages();
+    useSocketMessage();
     return (
         <div className="flex flex-col rounded-lg shadow-inner overflow-x-auto p-3 pt-6 h-[540px] mb-2 bg-white">
             {messages.map((message) => (

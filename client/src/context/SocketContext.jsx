@@ -12,21 +12,19 @@ export const SocketContextProvider = ({ children }) => {
     const [socket, setSocket] = useState(null);
     const [onlineUsers, setOnlineUsers] = useState([]);
     const {authUser} = useAuthContext();
-    console.log("authUser>>>",authUser)
+
     useEffect(()=>{
         
         if(authUser) { 
             const socket = io("http://localhost:5000",{
-                autoConnect: false,
+                autoConnect: true,
                 query: {
                     userId: authUser.id
                 }
             });
-            console.log("authUser effect inside>>>",authUser)
             setSocket(socket);
 
-            socket.on("getOnlineUsers", (onlineUsers) => {
-                console.log("Online users >> ", onlineUsers);
+            socket.on("getOnlineUser", (onlineUsers) => {
                 setOnlineUsers(onlineUsers);
             });
             return () => socket.close();

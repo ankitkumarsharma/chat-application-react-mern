@@ -4,23 +4,25 @@ import Avatar from "../../layout/Avatar";
 import useContactStore from "../../store/useContactStore";
 
 const Contact = ({ contact }) => {
-    const {selectedContact, setSelectedContact} = useContactStore();
+    const { selectedContact, setSelectedContact } = useContactStore();
     const isSelected = selectedContact?._id === contact._id;
-    const {getMessages} = useMessages();
-    const {onlineUsers} = useSocketContext();
+    const { getMessages } = useMessages();
+    const { onlineUsers } = useSocketContext();
     const isOnline = onlineUsers.includes(contact._id);
-    console.log("contact >>>> online", onlineUsers)
-    const handleClick = () =>{
+    
+    const handleClick = () => {
         setSelectedContact(contact);
         getMessages();
     }
-    
+
     return (
         <>
-            <div className={`${isSelected ? "bg-red-300":""}`} onClick={handleClick} key={contact._id}>
-                {isOnline ? "Online" : "Offline"}
+            <div className={`${isSelected ? "bg-red-300" : ""}`} onClick={handleClick} key={contact._id}>
                 <div className={"p-2 flex items-center pl-2 cursor-pointer pb-1"}>
-                    <Avatar url={contact.profilePic} />
+                    <div className="relative flex">
+                        <Avatar url={contact.profilePic} />
+                        {isOnline ? <div className="w-3 h-3 rounded-full absolute right-1 bg-green-600"></div> : ""}
+                    </div>
                     {contact.fullName}
                 </div>
             </div>
