@@ -9,7 +9,7 @@ const generateTokenAndSetCookie = (userId, res)=>{
         maxAge: 1 * 24 * 60 * 60 * 1000,
         httpOnly: true, // prevent xss attacks  
         sameSite: 'strict', // csrf protection disabled
-        // secure: process.env.NODE_ENV !== 'dev'
+        secure: process.env.NODE_ENV !== 'dev'
     })
 } 
 

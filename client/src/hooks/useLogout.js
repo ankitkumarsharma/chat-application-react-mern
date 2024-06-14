@@ -17,7 +17,7 @@ const useLogout = () => {
             });
             const data = await response.json();
             if (data.error) {
-                toast.error(data.error);
+                return toast.error(data.error);
                 // throw new Error(data.error);
             }
             sessionStorage.removeItem('chat-user');

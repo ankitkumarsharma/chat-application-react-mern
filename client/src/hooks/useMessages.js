@@ -13,7 +13,7 @@ const useMessages = ()=> {
             const response = await fetch(`${API_URL.GET_MESSAGES}${selectedContact._id}`);
             const data = await response.json();
             if (data.error) {
-                toast.error(data.error);
+                return toast.error(data.error);
                 // throw new Error(data.error);
             }
             setMessages(data);

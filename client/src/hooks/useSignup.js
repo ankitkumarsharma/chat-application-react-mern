@@ -19,13 +19,13 @@ const useSignup = () => {
             });
 
             const data = await response.json();
+            if (data.error) {
+                return toast.error(data.error);
+                // throw new Error(data.error);
+            }
             toast.success(ALERT_MESSAGES.SUCCESS.SIGNUP_SUCCESS);
             sessionStorage.setItem("chat-user", JSON.stringify(data));
             setAuthUser(data);
-            if (data.error) {
-                toast.error(data.error);
-                // throw new Error(data.error);
-            }
         } catch (error) {
             toast.error(error.message);
         } finally {
@@ -53,6 +53,10 @@ const handleInputErrors = ({ fullName, username, password, confirmPassword, gend
     }
     if (password.length < 6) {
         toast.error("Password must be atleast 6 characters long!!!");
+        return false;
+    }
+    if (fullName.length > 10 || fullName.length < 3) {
+        toast.error("Fullname must be min 3 char and max 10 characters long!!!");
         return false;
     }
     return true;
