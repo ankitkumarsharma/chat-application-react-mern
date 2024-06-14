@@ -11,6 +11,7 @@ We can start Client with below commands
  - tailwindcss -> for design css
  - react-toastify -> for toaster messages like error,success,warning alerts
  - zustand -> for state management like redux
+ - socket.io-client -> for socket client communication
 
 ## Steps for All Applications
  - Start

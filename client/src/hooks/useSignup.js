@@ -20,7 +20,7 @@ const useSignup = () => {
 
             const data = await response.json();
             if (data.error) {
-                return toast.error(data.error);
+                return toast.error(data.message);
                 // throw new Error(data.error);
             }
             toast.success(ALERT_MESSAGES.SUCCESS.SIGNUP_SUCCESS);

@@ -25,7 +25,7 @@ export const login = async (req, res) => {
         
     } catch (error) {
         console.log("Error from login controller: ",error);
-        res.status(500).json({ error: "Internal Server Error!"});
+        res.status(500).json({ error: error, message: "Internal Server Error!!!" });
     }
 }
 
@@ -35,7 +35,7 @@ export const logout = (req, res) => {
         res.status(200).json({ message: "Logout successfully!"});
     } catch (error) {
         console.log("Error from logout controller: ",error);
-        res.status(500).json({ error: "Internal Server Error!"});
+        res.status(500).json({ error: error, message: "Internal Server Error!!!" });
     }
 }
 
@@ -80,6 +80,6 @@ export const signup = async (req, res) => {
         }
     } catch (error) {
         console.log("Error from signup controller: ",error);
-        res.status(500).json({ error: "Internal Server Error!" });
+        res.status(500).json({ error: error, message: "Internal Server Error!!!" });
     }
 }
