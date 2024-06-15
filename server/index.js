@@ -19,7 +19,7 @@ const __dirname = path.resolve();
 config();
 const corsOptions = {
     // origin: 'https://chat-application-react-mern.vercel.app',
-    origin: 'http://localhost:3000',
+    origin: 'https://chat-application-react-mern.onrender.com',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allow these HTTP methods
     credentials: true, // Allow credentials (cookies, authorization headers, TLS client certificates)
     optionsSuccessStatus: 204 // Response status for successful OPTIONS requests

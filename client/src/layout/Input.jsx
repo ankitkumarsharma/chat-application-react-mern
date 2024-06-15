@@ -1,4 +1,4 @@
-const Input = ({ isLabel, label = "something", name, type, onChange, radioList = [], isRadioInline = true, mb = "mb-4" }) => {
+const Input = ({ isLabel, value, label = "something", name, type, onChange, radioList = [], isRadioInline = true, mb = "mb-4" }) => {
     const radioInput = radioList.map((item) => {
         return <div key={item.value} className="w-full">
             <label htmlFor={item.value}>
@@ -18,6 +18,7 @@ const Input = ({ isLabel, label = "something", name, type, onChange, radioList =
                     type={type} placeholder={`Enter ${label}`}
                     onChange={onChange}
                     name={name}
+                    value={value}
                     className="p-5 w-full mt-1 h-9 rounded-full" />
             }
             {type === "radio" &&

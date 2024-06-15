@@ -17,7 +17,7 @@ const SendMessage = () => {
         <div className="p-2">
             <form className="flex items-center h-9 w-full" >
                 <div className="w-[80%]">
-                    <Input mb="mb-0" onChange={(e) => setMessage(e.target.value)} name="message" />
+                    <Input value={message}  mb="mb-0" onChange={(e) => setMessage(e.target.value)} name="message" />
                 </div>
                 <div className="ml-2 w-[20%]">
                     <Button onClick={handleSubmit} name="Send" />
