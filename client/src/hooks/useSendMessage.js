@@ -7,7 +7,7 @@ import { useAuthContext } from "../context/AuthContext";
 
 const useSendMessage = () => {
     const [loading, setLoading] = useState(false);
-    const {selectedContact, setSelectedContact, messages, setMessages} = useContactStore();
+    const {selectedContact, messages, setMessages} = useContactStore();
     const {getMessages} = useMessages();
     const {authUser} = useAuthContext()
     
@@ -24,7 +24,7 @@ const useSendMessage = () => {
                 return toast.error(data.message);
                 // throw new Error(data.error);
             }
-            setMessages([...message, data]);
+            setMessages([...messages, data]);
             getMessages();
         } catch (error) {
             toast.error(error.message);

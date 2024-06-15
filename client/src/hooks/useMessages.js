@@ -6,8 +6,9 @@ import { useAuthContext } from "../context/AuthContext";
 
 const useMessages = ()=> {
     const [loading, setLoading] = useState(false);
-    const { selectedContact, setSelectedContact, messages, setMessages } = useContactStore();
-    const {authUser} = useAuthContext()
+    const { selectedContact, messages, setMessages } = useContactStore();
+    const {authUser} = useAuthContext();
+
     const getMessages = async () => {
         setLoading(true);
         try {
@@ -22,7 +23,6 @@ const useMessages = ()=> {
                 // throw new Error(data.error);
             }
             setMessages(data);
-            console.log("message from getMessage(),", data)
         } catch (error) {
             toast.error(error.messages);
                 // throw new Error(error.messages);
