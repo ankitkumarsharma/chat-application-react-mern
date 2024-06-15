@@ -25,7 +25,7 @@ export const login = async (req, res) => {
         
     } catch (error) {
         console.log("Error from login controller: ",error);
-        res.status(500).json({ error: error, message: "Internal Server Error!!!" });
+        res.status(500).json({ error: "Internal Server Error!"});
     }
 }
 
@@ -35,7 +35,7 @@ export const logout = (req, res) => {
         res.status(200).json({ message: "Logout successfully!"});
     } catch (error) {
         console.log("Error from logout controller: ",error);
-        res.status(500).json({ error: error, message: "Internal Server Error!!!" });
+        res.status(500).json({ error: "Internal Server Error!"});
     }
 }
 
@@ -44,11 +44,11 @@ export const signup = async (req, res) => {
         const { fullName, username, password, confirmPassword, gender } = req.body;
 
         if (password !== confirmPassword) {
-            return res.status(400).json({ error: "Password and Confirm Password not matched!!!" })
+            return res.status(400).json({ error: "Password and Confirm Password not matched!" })
         }
         const user = await User.findOne({ username });
         if (user) {
-            return res.status(400).json({ error: "User already exists!!!" });
+            return res.status(400).json({ error: "User already exists!" });
         }
 
         const salt = await bcrypt.genSaltSync(10);
@@ -76,10 +76,10 @@ export const signup = async (req, res) => {
                 createdAt: newUser.createdAt,
             });
         } else {
-            res.status(400).json({ error: "Invalid User Data!!!" });
+            res.status(400).json({ error: "Invalid User Data!" });
         }
     } catch (error) {
         console.log("Error from signup controller: ",error);
-        res.status(500).json({ error: error, message: "Internal Server Error!!!" });
+        res.status(500).json({ error: "Internal Server Error!"});
     }
 }
