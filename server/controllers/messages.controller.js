@@ -6,7 +6,8 @@ export const sendMessage = async (req, res) => {
     try {
         const { message } = req.body;
         const receiverId = req.params.id;
-        const senderId = req.user._id;
+        // const senderId = req.user._id;
+        const senderId = req.body.senderId;
         let conversation = await Conversation.findOne({
             participants: { $all: [senderId, receiverId] }
         });
@@ -49,7 +50,8 @@ export const getMessages = async (req, res) => {
     try {
         const { id: userWithChatId } = req.params
         // const userWithChatId = req.params.id; // we can use anyone of the same
-        const senderId = req.user._id;
+        // const senderId = req.user._id;
+        const senderId = req.body.senderId;
         const conversation = await Conversation.findOne({
             participants: { $all: [senderId, userWithChatId] }
         }).populate('messages');

@@ -19,7 +19,7 @@ export const SocketContextProvider = ({ children }) => {
             const socket = io("http://localhost:5000",{
                 autoConnect: true,
                 query: {
-                    userId: authUser.id
+                    userId: authUser._id
                 }
             });
             setSocket(socket);

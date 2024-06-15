@@ -5,7 +5,6 @@ import Logout from "./Logout";
 
 const SidebarHeader = () => {
     const {authUser} = useAuthContext();
-    console.log("SidebarHeader",authUser);
     return (
         <div className="flex items-center w-full border-b border-teal-800 mb-2 pr-3">
             <Avatar url={authUser.profilePic} />

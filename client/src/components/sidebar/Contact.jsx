@@ -1,3 +1,4 @@
+import { useAuthContext } from "../../context/AuthContext";
 import { useSocketContext } from "../../context/SocketContext";
 import useMessages from "../../hooks/useMessages";
 import Avatar from "../../layout/Avatar";
@@ -9,12 +10,13 @@ const Contact = ({ contact }) => {
     const { getMessages } = useMessages();
     const { onlineUsers } = useSocketContext();
     const isOnline = onlineUsers.includes(contact._id);
+    const {authUser} = useAuthContext();
     
     const handleClick = () => {
         setSelectedContact(contact);
         getMessages();
     }
-
+    
     return (
         <>
             <div className={`${isSelected ? "bg-red-300" : ""}`} onClick={handleClick} key={contact._id}>
