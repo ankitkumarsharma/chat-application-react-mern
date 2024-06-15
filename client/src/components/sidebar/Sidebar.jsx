@@ -4,7 +4,7 @@ import SidebarSearch from "./SidebarSearch";
 
 const Sidebar = () => {
     return (
-        <div className="bg-red-100 w-1/3 rounded-l p-3 pr-0 h-[600px]">
+        <div className="bg-red-100 rounded-l p-3 pr-0 h-[600px]">
             <SidebarHeader />
             <SidebarSearch />
             <ContactList />
