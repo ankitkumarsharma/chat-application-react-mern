@@ -24,9 +24,10 @@ const useContact = () => {
                 setLoading(false);
             }
         }
-        setTimeout(() => {
-            getContactList();
-        }, 1000)
+        getContactList();
+        // setTimeout(() => {
+        //     getContactList();
+        // }, 1000)
     }, []);
 
     return {

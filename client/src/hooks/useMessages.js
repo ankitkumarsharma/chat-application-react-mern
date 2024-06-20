@@ -31,9 +31,10 @@ const useMessages = ()=> {
         }
     }
     useEffect(()=>{
-        setTimeout(()=>{
-            if(selectedContact?._id) getMessages();
-        }, 3000);
+        if(selectedContact?._id) getMessages();
+        // setTimeout(()=>{
+        //     if(selectedContact?._id) getMessages();
+        // }, 3000);
     }, [selectedContact?._id, setMessages]);
 
     return {

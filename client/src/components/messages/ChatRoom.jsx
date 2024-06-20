@@ -2,9 +2,10 @@ import { useEffect, useRef } from "react";
 import useMessages from "../../hooks/useMessages";
 import useSocketMessage from "../../hooks/useSocketMessage";
 import Message from "./Message";
+import Loader from "../../layout/Loader";
 
 const ChatRoom = () => {
-    const { messages } = useMessages();
+    const { loading, messages } = useMessages();
     useSocketMessage();
     const lastMessageRef = useRef();
 
@@ -16,7 +17,12 @@ const ChatRoom = () => {
 
     return (
         <div className="flex flex-col rounded-lg shadow-inner overflow-x-auto p-3 pt-6 h-[540px] mb-2 bg-white">
-            {messages.map((message) => (
+            {
+            loading ? (
+                <div className="flex items-center justify-center w-full h-full">
+                    <Loader />
+                </div>
+            ) : messages.map((message) => (
                 <div key={message._id} ref={lastMessageRef}>
                     <Message message={message} />
                 </div>
