@@ -1,6 +1,6 @@
 import { useSocketContext } from "../../context/SocketContext";
 import useMessages from "../../hooks/useMessages";
-import useWindowSizeQuery from "../../hooks/useWindowSizeQuery";
+import useMobileDevice from "../../hooks/useMobileDevice";
 import Avatar from "../../layout/Avatar";
 import useContactStore from "../../store/useContactStore";
 import useMobileScreenStore from "../../store/useMobileScreenStore";
@@ -11,13 +11,13 @@ const Contact = ({ contact }) => {
     const { getMessages } = useMessages();
     const { onlineUsers } = useSocketContext();
     const isOnline = onlineUsers.includes(contact._id);
-    const isMobileResolution = useWindowSizeQuery('(max-width:600px)', true);
+    const {isMobile} = useMobileDevice();
     const { setShowOnMobile } = useMobileScreenStore();
 
     const handleClick = () => {
         setSelectedContact(contact);
         getMessages();
-        if (isMobileResolution) {
+        if (isMobile) {
             setShowOnMobile(true);
         }
     }

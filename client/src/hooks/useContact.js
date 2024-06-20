@@ -6,7 +6,7 @@ import useContactStore from "../store/useContactStore";
 const useContact = () => {
     const [loading, setLoading] = useState(false);
     const [contactListApi, setContactListApi] = useState([]);
-    const {contactList, setContactList} = useContactStore();
+    const {setContactList} = useContactStore();
 
     useEffect(() => {
         const getContactList = async () => {

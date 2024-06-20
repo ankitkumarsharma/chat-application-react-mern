@@ -49,3 +49,7 @@ export const ALERT_MESSAGES = {
         LOGOUT_ERROR: "Logout failed!"
     }
 }
+
+export const MOBILE_DEVICES_SIZE = {
+    NUM_768: 768,
+}

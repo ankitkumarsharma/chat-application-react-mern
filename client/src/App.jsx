@@ -6,8 +6,10 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuthContext } from './context/AuthContext';
+import useMobileDevice from './hooks/useMobileDevice';
 
 function App() {
+  useMobileDevice();
   console.log('Server Url >> ', process.env.REACT_APP_SERVER_URL);
   const {authUser} = useAuthContext()
   return (
