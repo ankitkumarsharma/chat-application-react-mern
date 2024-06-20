@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { API_URL } from "../utils/app.constant";
+import useContactStore from "../store/useContactStore";
 
 const useContact = () => {
     const [loading, setLoading] = useState(false);
-    const [contactList, setContactList] = useState([]);
+    const [contactListApi, setContactListApi] = useState([]);
+    const {contactList, setContactList} = useContactStore();
 
     useEffect(() => {
         const getContactList = async () => {
@@ -17,6 +19,7 @@ const useContact = () => {
                     // throw new Error(data.error);
                 }
                 setContactList(data);
+                setContactListApi(data);
             } catch (error) {
                 toast.error(error.message);
                 // throw new Error(error.message);
@@ -32,7 +35,7 @@ const useContact = () => {
 
     return {
         loading,
-        contactList
+        contactListApi
     }
 
 }

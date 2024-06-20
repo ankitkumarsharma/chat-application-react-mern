@@ -6,36 +6,53 @@ import useContactStore from "../../store/useContactStore";
 
 const SidebarSearch = () => {
     const [search, setSearch] = useState("");
-    const {contactList} = useContact();
-    const {setSelectedContact} =  useContactStore()
+    const {contactListApi} = useContact();
+    const { contactList, setContactList } = useContactStore();
+    const [cancelSearch, setCancelSearch] = useState(false);
 
-    const handleSearch = (e)=>{
-       e.preventDefault();
-       if(!search) return;
-       if(search.length < 3) {
-            return toast.error("Search must be atleast 3 characters!!!");
-       }
+    const handleSearch = (e) => {
+        e.preventDefault();
+        if (!search) return;
+        if (search.length < 2) {
+            return toast.error("Search must be atleast 2 characters!");
+        }
+        const filteredContactList = contactList.filter((contact) => {
+            return contact.fullName.toLowerCase().includes(search.toLowerCase());
+        });
+        if (filteredContactList) {
+            setContactList(filteredContactList);
+            setCancelSearch(true);
+        }
+    }
 
-       const filteredContactList = contactList.filter((contact)=>{
-           return contact.fullName.toLowerCase().includes(search.toLowerCase());
-       });
-       if(filteredContactList) {
-        setSelectedContact(filteredContactList);
+    const handleCancelSearch = (e) => {
+        e.preventDefault();
         setSearch("");
-       } else {
-        toast.error("No user found!!!")
-       }
+        setContactList(contactListApi);
+        setCancelSearch(false);
     }
 
     return (
         <div className="flex pr-3">
             <form className="flex">
-                <Input onChange={(e)=> setSearch(e.target.value)} mb="mb-3" />
-                <span onClick={handleSearch} className="mt-3 ml-3 cursor-pointer">
+                <div class="relative w-full">
+                    <Input value={search} onChange={(e) => setSearch(e.target.value)} mb="mb-2" />
+                    {
+                        cancelSearch && (
+                            <button onClick={handleCancelSearch} type="button" class="absolute inset-y-0 end-0 flex items-center pe-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        )
+                    }
+
+                </div>
+                <button onClick={handleSearch} className=" ml-3 cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                     </svg>
-                </span>
+                </button>
             </form>
         </div>
     );

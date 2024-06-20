@@ -3,11 +3,12 @@ import Login from './pages/login/Login';
 import SignUp from './pages/signup/SignUp';
 import Home from './pages/home/Home';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuthContext } from './context/AuthContext';
 
 function App() {
+  console.log('Server Url >> ', process.env.REACT_APP_SERVER_URL);
   const {authUser} = useAuthContext()
   return (
     <div className='bg-blue-50 p-4 h-screen flex items-center justify-center'>

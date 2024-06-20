@@ -11,12 +11,11 @@ export const useSocketContext = () => {
 export const SocketContextProvider = ({ children }) => {
     const [socket, setSocket] = useState(null);
     const [onlineUsers, setOnlineUsers] = useState([]);
-    const {authUser} = useAuthContext();
+    const { authUser } = useAuthContext();
 
-    useEffect(()=>{
-        
-        if(authUser) { 
-            const socket = io("https://chat-application-react-mern.onrender.com",{
+    useEffect(() => {
+        if (authUser) {
+            const socket = io(process.env.REACT_APP_SERVER_URL, {
                 autoConnect: true,
                 query: {
                     userId: authUser._id
@@ -28,17 +27,17 @@ export const SocketContextProvider = ({ children }) => {
                 setOnlineUsers(onlineUsers);
             });
             return () => socket.close();
-         } else {
-            if(socket) {
+        } else {
+            if (socket) {
                 socket.close();
                 setSocket(null);
             }
-         }
-         // eslint-disable-next-line
-    },[authUser]);
+        }
+        // eslint-disable-next-line
+    }, [authUser]);
 
     return (
-        <SocketContext.Provider value={{socket, onlineUsers}}>
+        <SocketContext.Provider value={{ socket, onlineUsers }}>
             {children}
         </SocketContext.Provider>
     )
