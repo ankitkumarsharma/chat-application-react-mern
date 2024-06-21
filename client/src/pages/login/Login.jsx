@@ -27,7 +27,7 @@ const Login = () => {
                     isLabel={true} type="password"
                     onChange={(e) => setInput({ ...input, password: e.target.value })} name="password" label="Password"
                 />
-                <Button name={loading ? 'Loading' : 'Login'} onClick={onLogin} />
+                <Button type="submit" name={loading ? 'Loading' : 'Login'} onClick={onLogin} />
                 <LoginOrSignupHint isLogin={false} />
             </form>
         </ContentBlock>

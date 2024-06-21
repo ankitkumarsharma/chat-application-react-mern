@@ -20,7 +20,7 @@ const SendMessage = () => {
                     <Input value={message}  mb="mb-0" onChange={(e) => setMessage(e.target.value)} name="message" />
                 </div>
                 <div className="ml-2 w-[20%]">
-                    <Button onClick={handleSubmit} name="Send" />
+                    <Button type="submit" onClick={handleSubmit} name="Send" />
                 </div>
             </form>
         </div>

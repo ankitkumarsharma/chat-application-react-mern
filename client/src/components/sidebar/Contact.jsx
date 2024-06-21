@@ -21,16 +21,17 @@ const Contact = ({ contact }) => {
             setShowOnMobile(true);
         }
     }
-
+    
     return (
         <>
             <div className={`${isSelected ? "bg-red-300" : ""}`} onClick={handleClick} key={contact._id}>
-                <div className={"p-2 flex items-center pl-2 cursor-pointer pb-1"}>
+                <div className={"p-2 flex items-center pl-2 cursor-pointer pb-1 relative"}>
                     <div className="relative flex">
                         <Avatar url={contact.profilePic} />
                         {isOnline ? <div className="w-3 h-3 rounded-full absolute right-1 bg-green-600"></div> : ""}
                     </div>
                     {contact.fullName}
+                    {/* <div className="w-3 h-3 rounded-full absolute right-1 bg-green-600"></div> */}
                 </div>
             </div>
             <div className="border-b border-gray-100 w-full h-1"></div>

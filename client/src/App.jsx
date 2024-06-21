@@ -10,7 +10,6 @@ import useMobileDevice from './hooks/useMobileDevice';
 
 function App() {
   useMobileDevice();
-  console.log('Server Url >> ', process.env.REACT_APP_SERVER_URL);
   const {authUser} = useAuthContext()
   return (
     <div className='bg-blue-50 p-4 h-screen flex items-center justify-center'>

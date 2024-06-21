@@ -34,12 +34,12 @@ const SidebarSearch = () => {
 
     return (
         <div className="flex pr-3">
-            <form className="flex">
-                <div class="relative w-full">
+            <form className="flex w-full">
+                <div className="relative w-full">
                     <Input value={search} onChange={(e) => setSearch(e.target.value)} mb="mb-2" />
                     {
                         cancelSearch && (
-                            <button onClick={handleCancelSearch} type="button" class="absolute inset-y-0 end-0 flex items-center pe-2">
+                            <button onClick={handleCancelSearch} type="button" className="absolute inset-y-0 end-0 flex items-center pe-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
                                 </svg>

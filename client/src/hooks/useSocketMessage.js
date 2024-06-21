@@ -5,13 +5,16 @@ import notificationAudio from "../utils/notificationAudio";
 
 const useSocketMessage = () => {
     const { socket } = useSocketContext();
-    const { messages, setMessages } = useContactStore();
+    const { messages, setMessages, selectedContact, setLatestMessage } = useContactStore();
 
     useEffect(() => {
         socket?.on("newMessage", (newMessage) => {
+            setLatestMessage(newMessage);
             if (messages) {
                 notificationAudio();
-                setMessages([...messages, newMessage]);
+                if(newMessage?.senderId === selectedContact?._id) { 
+                    setMessages([...messages, newMessage]);
+                }  
             }
         });
 
